@@ -1,4 +1,7 @@
 
+body{
+    display:inline-block;
+}
 .topics{
     max-width: 65%;
     display:inline-block;
@@ -42,6 +45,8 @@ body:hover{
     cursor:pointer;
 }
 .gif-dump{
+    text-align:center;
 clear: both;
 display: inline-block;
 }
+

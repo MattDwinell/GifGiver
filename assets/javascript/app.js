@@ -32,7 +32,7 @@ $(document).ready(function () {
             gifNumber = 2;
         }
         if (searchTopic) {
-            var queryURL = "https://api.giphy.com/v1/gifs/search? q=" + searchTopic + "&apikey=ZyUXN606XVdEZHZ5sk3RWjOKSzOOFOyk&limit=" + gifNumber;
+            var queryURL = "https://api.giphy.com/v1/gifs/search? q=" + searchTopic + "&rating=g&apikey=nykJ4SpXw588S4B1fjOF8KYeZbl02QVR&limit=" + gifNumber;
             console.log(queryURL);
             $.ajax({
                 url: queryURL,
@@ -41,11 +41,14 @@ $(document).ready(function () {
                 console.log(response);
 
                 for (var i = 0; i < gifNumber; i++) {
+                    var gifDiv = $("<div>").css("display", "inline-block");
+                    var rating = $("<p>").text("rating: G");
                     var gif = $("<img>").attr("src", response.data[i].images.fixed_height_still.url);
                     gif.attr("active", response.data[i].images.fixed_height.url);
                     gif.attr("still", response.data[i].images.fixed_height_still.url);
                     gif.attr("class", "gif");
-                    $(".gif-dump").append(gif);
+                    gifDiv.append(rating, gif);
+                    $(".gif-dump").append(gifDiv);
                 }
 
             })
