@@ -1,13 +1,13 @@
-body{
-    display:block;
-}
-.button-holder{
+
+.topics{
+    max-width: 65%;
     display:inline-block;
-    margin-top:20px;
-   max-width: 65%;
-    
+    box-sizing: border-box;
+    float:left;
 }
-.topic-button{
+    
+
+.topics-buttons{
     float:left;
     text-align:center;
     padding:4px;
@@ -17,7 +17,12 @@ body{
     color: lightblue;
     background-color:grey;
 }
-.new-button-maker{
+.user-stuff{
+    max-width: 35%;
+    box-sizing: border-box;
+    float: right;
+}
+.submit{
     padding:10px;
     color: lightgreen;
     font-weight:bold;
@@ -25,7 +30,7 @@ body{
     float:right;
     margin-right:10px;
 }
-.user-text-form, .user-gif-limit{
+.user-search, .gif-number, .instructions{
     padding:4px;
     margin: 5px;
     float:right;
@@ -36,12 +41,7 @@ body{
 body:hover{
     cursor:pointer;
 }
-.gif-div{
-    text-align:center;
-    margin: 20px 5px;
-    display:inline-block;
-
-}
-.gif-div>p{
-    padding: 5px;
+.gif-dump{
+clear: both;
+display: inline-block;
 }
