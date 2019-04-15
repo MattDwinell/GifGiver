@@ -1,4 +1,4 @@
-
+/* by setting  everything in css to inline block and floating appropriately, this website is effectively mobile responsive. feel free to test this by hitting the mobile screen on the inspector */
 body{
     display:inline-block;
 }
@@ -45,8 +45,12 @@ body:hover{
     cursor:pointer;
 }
 .gif-dump{
+    padding:5px;
     text-align:center;
 clear: both;
 display: inline-block;
+}
+.gif-div{
+    margin: 0 10px;
 }
 

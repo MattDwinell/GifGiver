@@ -3,7 +3,7 @@ $(document).ready(function () {
     var topics = ["squirrels", "poop", "fish", "magic", "snake", "squid", "kangaroo"];
     renderer();
 
-    // on click event handlers
+    // on click event handlers for clicking the submit button, on any topic button, or on any generated gif:
     $(".submit").on("click", function () {
         var userSearch = $(".user-search").val().trim();
         topics.push(userSearch);
@@ -13,6 +13,7 @@ $(document).ready(function () {
     $(document).on("click", ".topics-buttons", gifGenerator);
     $(document).on("click", ".gif", startStop);
 
+    //creating the buttons by looping through the topics array. the buttons will be re-created every time the user hits submit.
     function renderer() {
         $(".topics-holder").html("");
         for (var i = 0; i < topics.length; i++) {
@@ -23,25 +24,36 @@ $(document).ready(function () {
     }
 
 
-
+//function for generating gifs. I will walk through what I'm doing here:
     function gifGenerator() {
+
+        //first I clear any current gifs on the screen.
         $(".gif-dump").html("");
+
+        // this pulls the users input from their search topic and number of gifs, and selects a random page between 0 and 49 to access on the api data.
         var gifNumber = $(".gif-number").val();
         var searchTopic = $(this).text().trim();
+        var offset = Math.floor(Math.random()*50);
+
+        //in case the user does not specify the number of gifs to retrieve, the program will default to two. this avoids a search with a a limit of 0.
         if (!gifNumber) {
             gifNumber = 2;
         }
+
+        //this check is to verify that there is a text value inside the button clicked on, to prevent someone adding buttons consisting of a single space.
         if (searchTopic) {
-            var queryURL = "https://api.giphy.com/v1/gifs/search? q=" + searchTopic + "&rating=g&apikey=nykJ4SpXw588S4B1fjOF8KYeZbl02QVR&limit=" + gifNumber;
+
+            //setting up the ajax call. query url takes into account the search topic, my api key, a random page, a number of gifs to retrieve, and I specifically set the rating of those gifs to be g to avoid anything remotely inappropriate. 
+            var queryURL = "https://api.giphy.com/v1/gifs/search? q=" + searchTopic + "&rating=g&apikey=nykJ4SpXw588S4B1fjOF8KYeZbl02QVR&limit=" + gifNumber + "&offset=" + offset;
             console.log(queryURL);
             $.ajax({
                 url: queryURL,
                 method: "GET"
             }).then(function (response) {
-                console.log(response);
 
+                //looping through the api data to put the gifs as still images onto the screen with their rating above them. by assigning the active, still, and src attributes I can easily change them on click.
                 for (var i = 0; i < gifNumber; i++) {
-                    var gifDiv = $("<div>").css("display", "inline-block");
+                    var gifDiv = $("<div>").css("display", "inline-block").attr("class", "gif-div");
                     var rating = $("<p>").text("rating: G");
                     var gif = $("<img>").attr("src", response.data[i].images.fixed_height_still.url);
                     gif.attr("active", response.data[i].images.fixed_height.url);
@@ -54,6 +66,8 @@ $(document).ready(function () {
             })
         }
     }
+
+    //this simply changes the url to a still picture if it's currently a gif, or vice versa. 
     function startStop() {
         var currentSRC = $(this).attr("src");
         var active = $(this).attr("active");
@@ -65,41 +79,6 @@ $(document).ready(function () {
             $(this).attr("src", still);
         }
     }
-    // var searchUrl = $(this).attr("data-name");
-    // var gifCount = $(numGifsRequested).val();
-    // if (gifCount != 0) {
-    //     for (var i = 0; i < gifCount; i++) {
-    //         var queryURL = "https://api.giphy.com/v1/gifs/random?apikey=ZyUXN606XVdEZHZ5sk3RWjOKSzOOFOyk&tag=" + searchUrl;
-    //         $.ajax({
-    //             url: queryURL,
-    //             method: "GET"
-    //         }).then(function (response) {
-    //             console.log(searchUrl);
-    //             console.log(response);
-    //             var newGifDiv = $("<div>").attr("class", "gif-div");
-    //             var newGif = $("<img>").attr("src", response.data.images.fixed_height_still.url);
-    //             var newRating = $("<p>").text("rating: g");
-    //             newGif.attr("active", response.data.images.fixed_height.url);
-    //             newGif.attr("still", response.data.images.fixed_height_still.url);
-    //             newGif.attr("class", "gif");
-    //             newGifDiv.append(newRating, newGif);
-    //             gifHolder.prepend(newGifDiv);
-    //         })
-
-    //         }
-    //     }
-    // }
-    // function gifPlayer() {
-    //     var currentSource = $(this).attr("src");
-    //     var active = $(this).attr("active");
-    //     var still = $(this).attr("still");
-    //     console.log(currentSource, active, still);
-    //     if (currentSource == active) {
-    //         $(this).attr("src", still);
-    //     } else {
-    //         $(this).attr("src", active);
-    //     }
-    // }
 
 
 
