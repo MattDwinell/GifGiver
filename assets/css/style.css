@@ -1,0 +1,47 @@
+body{
+    display:block;
+}
+.button-holder{
+    display:inline-block;
+    margin-top:20px;
+   max-width: 65%;
+    
+}
+.topic-button{
+    float:left;
+    text-align:center;
+    padding:4px;
+    margin: 10px 10px;
+    border: 4px solid grey;
+    border-radius: 3px;
+    color: lightblue;
+    background-color:grey;
+}
+.new-button-maker{
+    padding:10px;
+    color: lightgreen;
+    font-weight:bold;
+    background-color: grey;
+    float:right;
+    margin-right:10px;
+}
+.user-text-form, .user-gif-limit{
+    padding:4px;
+    margin: 5px;
+    float:right;
+    color:black;
+    background-color:lavenderblush;
+    font-weight:bold;
+}
+body:hover{
+    cursor:pointer;
+}
+.gif-div{
+    text-align:center;
+    margin: 20px 5px;
+    display:inline-block;
+
+}
+.gif-div>p{
+    padding: 5px;
+}
