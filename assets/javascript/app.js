@@ -45,21 +45,23 @@ $(document).ready(function () {
 
             //setting up the ajax call. query url takes into account the search topic, my api key, a random page, a number of gifs to retrieve, and I specifically set the rating of those gifs to be g to avoid anything remotely inappropriate. 
             var queryURL = "https://api.giphy.com/v1/gifs/search? q=" + searchTopic + "&rating=g&apikey=nykJ4SpXw588S4B1fjOF8KYeZbl02QVR&limit=" + gifNumber + "&offset=" + offset;
-            console.log(queryURL);
+           
             $.ajax({
                 url: queryURL,
                 method: "GET"
             }).then(function (response) {
+                console.log(response);
 
                 //looping through the api data to put the gifs as still images onto the screen with their rating above them. by assigning the active, still, and src attributes I can easily change them on click.
                 for (var i = 0; i < gifNumber; i++) {
                     var gifDiv = $("<div>").css("display", "inline-block").attr("class", "gif-div");
+                    var title = $("<p>").text( "title: " + response.data[i].title);
                     var rating = $("<p>").text("rating: G");
                     var gif = $("<img>").attr("src", response.data[i].images.fixed_height_still.url);
                     gif.attr("active", response.data[i].images.fixed_height.url);
                     gif.attr("still", response.data[i].images.fixed_height_still.url);
                     gif.attr("class", "gif");
-                    gifDiv.append(rating, gif);
+                    gifDiv.append(rating, title, gif);
                     $(".gif-dump").append(gifDiv);
                 }
 
@@ -72,7 +74,6 @@ $(document).ready(function () {
         var currentSRC = $(this).attr("src");
         var active = $(this).attr("active");
         var still = $(this).attr("still");
-        console.log(currentSRC, active, still);
         if (currentSRC == still) {
             $(this).attr("src", active);
         } else {
