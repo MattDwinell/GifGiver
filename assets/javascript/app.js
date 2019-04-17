@@ -2,7 +2,7 @@ $(document).ready(function () {
     //declaring initial variables and setting them equal to buttons. everything else can be on click.
     var topics = ["squirrels", "poop", "fish", "magic", "snake", "squid", "kangaroo"];
     renderer();
-
+populateFavorites();
     // on click event handlers for clicking the submit button, on any topic button, or on any generated gif:
     $(".submit").on("click", function () {
         var userSearch = $(".user-search").val().trim();
@@ -89,9 +89,17 @@ $(document).ready(function () {
     //section for local storage and saving favorites
     $(document).on("click", ".fav-button", newFavorite);
 
+    $('.clear').on("click", function(){
+        localStorage.clear();
+       $('.favorites').html(" ");
+
+console.log(localStorage);
+    })
+
   
 
     function newFavorite() {
+        $('.favorites').html(" ");
         if (localStorage.getItem("stillURLS")) {
             var favGifStillString = localStorage.getItem('stillURLS');
             var favGifActiveString = localStorage.getItem('activeURLS');
@@ -106,13 +114,45 @@ $(document).ready(function () {
         }
 
         $(this).css("display", "none");
-        favGifStillArray.push($(this).attr("active"));
-        favGifActiveArray.push($(this).attr("still"));
-        localStorage.setItem("activeURLS", JSON.stringify(favGifActiveArray));
-        localStorage.setItem("stillURLS", JSON.stringify(favGifStillArray));
+        favGifStillArray.push($(this).attr("still"));
+        favGifActiveArray.push($(this).attr("active"));
+        for (var i=0; i<favGifStillArray.length; i++){
+            console.log(favGifStillArray[i])
+            var gif = $("<img>").attr("src", favGifStillArray[i]);
+            gif.attr("active", favGifActiveArray[i]);
+            gif.attr("still", favGifStillArray[i]);
+            gif.attr("class", "gif");
+            $(".favorites").append(gif);
+        }
+        localStorage.setItem("activeURLS", favGifActiveArray.join(' '));
+        localStorage.setItem("stillURLS", favGifStillArray.join(' '));
     }
 
+function populateFavorites (){
+    if (localStorage.getItem("stillURLS")) {
+        var favGifStillString = localStorage.getItem('stillURLS');
+        var favGifActiveString = localStorage.getItem('activeURLS');
+       var favGifStillArray = favGifStillString.split(" ");
+       var favGifActiveArray = favGifActiveString.split(" ");
+       console.log(favGifStillString, favGifActiveString);
+        console.log(favGifActiveArray, favGifStillArray);
 
+    } else {
+        var favGifStillArray = [];
+        var favGifActiveArray = [];
+        console.log(favGifActiveArray, favGifStillArray);
+    }
+    for (var i=0; i<favGifStillArray.length; i++){
+        console.log(favGifStillArray[i])
+        var gif = $("<img>").attr("src", favGifStillArray[i]);
+        gif.attr("active", favGifActiveArray[i]);
+        gif.attr("still", favGifStillArray[i]);
+        gif.attr("class", "gif");
+        $(".favorites").append(gif);
+    }
+    localStorage.setItem("activeURLS", favGifActiveArray.join(' '));
+    localStorage.setItem("stillURLS", favGifStillArray.join(' '));
+}
 
 
 

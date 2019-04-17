@@ -8,6 +8,10 @@ body{
     box-sizing: border-box;
     float:left;
 }
+.favorites{
+    clear:both;
+    display: inline-block;
+}
     .fav-buttons{
         margin: 0 auto;
     }
