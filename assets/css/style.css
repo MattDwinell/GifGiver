@@ -9,6 +9,7 @@ body{
     float:left;
 }
 .favorites{
+    /* border-top: 8px solid grey; */
     clear:both;
     display: inline-block;
 }
@@ -55,6 +56,10 @@ body{
 }
 body:hover{
     cursor:pointer;
+}
+.spacer{
+    display:none;
+    border: 5px solid grey;
 }
 .gif-dump{
     padding:5px;

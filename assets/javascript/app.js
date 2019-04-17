@@ -67,6 +67,7 @@ $(document).ready(function () {
                     gifDiv.append(rating, title, favButton, gif);
                     $(".gif-dump").append(gifDiv);
                 }
+                $('.spacer').css("display", "block")
 
             })
         }
