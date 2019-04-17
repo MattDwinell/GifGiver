@@ -1,8 +1,9 @@
 $(document).ready(function () {
     //declaring initial variables and setting them equal to buttons. everything else can be on click.
     var topics = ["squirrels", "poop", "fish", "magic", "snake", "squid", "kangaroo"];
+    //running initial functions to populate buttons/saved gifs.
     renderer();
-populateFavorites();
+    populateFavorites();
     // on click event handlers for clicking the submit button, on any topic button, or on any generated gif:
     $(".submit").on("click", function () {
         var userSearch = $(".user-search").val().trim();
@@ -50,7 +51,6 @@ populateFavorites();
                 url: queryURL,
                 method: "GET"
             }).then(function (response) {
-                console.log(response);
 
                 //looping through the api data to put the gifs as still images onto the screen with their rating above them. by assigning the active, still, and src attributes I can easily change them on click.
                 for (var i = 0; i < gifNumber; i++) {
@@ -86,18 +86,21 @@ populateFavorites();
 
 
 
-    //section for local storage and saving favorites
+    //section for local storage and saving favorites//
+
+    //on click handler for when a user clicks a button to favorite a gif
     $(document).on("click", ".fav-button", newFavorite);
 
+    //on click handler when user hits the clear favorites button
     $('.clear').on("click", function(){
         localStorage.clear();
        $('.favorites').html(" ");
 
-console.log(localStorage);
     })
 
-  
-
+  //the new favorite function first checks to see if there's anything in local storage. if there is, it pulls it, 
+  // splits it into an array to iterate through, and then creates the img elements with the sources from those arrays.
+  //I could not get the JSON.stringify and JSON.parse to work properly for some reason, so instead I used the js methods to convert the arrays to strings and back again.
     function newFavorite() {
         $('.favorites').html(" ");
         if (localStorage.getItem("stillURLS")) {
@@ -124,10 +127,13 @@ console.log(localStorage);
             gif.attr("class", "gif");
             $(".favorites").append(gif);
         }
+
+        //after rendering the favorite gifs, we want to save their src urls in case of a reload.
         localStorage.setItem("activeURLS", favGifActiveArray.join(' '));
         localStorage.setItem("stillURLS", favGifStillArray.join(' '));
     }
 
+    //this is almost identical to newfavorite except without pushing the urls into the arrays. I couldn't think of a way to DRY up the code properly, but I'm sure there is one.
 function populateFavorites (){
     if (localStorage.getItem("stillURLS")) {
         var favGifStillString = localStorage.getItem('stillURLS');
@@ -153,21 +159,5 @@ function populateFavorites (){
     localStorage.setItem("activeURLS", favGifActiveArray.join(' '));
     localStorage.setItem("stillURLS", favGifStillArray.join(' '));
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 })

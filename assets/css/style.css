@@ -59,4 +59,10 @@ display: inline-block;
 .gif-div{
     margin: 0 10px;
 }
-
+.gif{
+    background-color: cadetblue;
+    padding:5px;
+    margin: 5px;
+    border:1px solid black;
+    border-radius: 3px;
+}
