@@ -24,7 +24,7 @@ $(document).ready(function () {
     }
 
 
-//function for generating gifs. I will walk through what I'm doing here:
+    //function for generating gifs. I will walk through what I'm doing here:
     function gifGenerator() {
 
         //first I clear any current gifs on the screen.
@@ -33,7 +33,7 @@ $(document).ready(function () {
         // this pulls the users input from their search topic and number of gifs, and selects a random page between 0 and 49 to access on the api data.
         var gifNumber = $(".gif-number").val();
         var searchTopic = $(this).text().trim();
-        var offset = Math.floor(Math.random()*50);
+        var offset = Math.floor(Math.random() * 50);
 
         //in case the user does not specify the number of gifs to retrieve, the program will default to two. this avoids a search with a a limit of 0.
         if (!gifNumber) {
@@ -45,7 +45,7 @@ $(document).ready(function () {
 
             //setting up the ajax call. query url takes into account the search topic, my api key, a random page, a number of gifs to retrieve, and I specifically set the rating of those gifs to be g to avoid anything remotely inappropriate. 
             var queryURL = "https://api.giphy.com/v1/gifs/search? q=" + searchTopic + "&rating=g&apikey=nykJ4SpXw588S4B1fjOF8KYeZbl02QVR&limit=" + gifNumber + "&offset=" + offset;
-           
+
             $.ajax({
                 url: queryURL,
                 method: "GET"
@@ -54,14 +54,17 @@ $(document).ready(function () {
 
                 //looping through the api data to put the gifs as still images onto the screen with their rating above them. by assigning the active, still, and src attributes I can easily change them on click.
                 for (var i = 0; i < gifNumber; i++) {
+                    var favButton = $("<button>").attr("active", response.data[i].images.fixed_height.url).text("add this gif to favorites");
+                    favButton.attr("still", response.data[i].images.fixed_height_still.url);
+                    favButton.attr("class", "fav-button");
                     var gifDiv = $("<div>").css("display", "inline-block").attr("class", "gif-div");
-                    var title = $("<p>").text( "title: " + response.data[i].title);
+                    var title = $("<p>").text("title: " + response.data[i].title);
                     var rating = $("<p>").text("rating: G");
                     var gif = $("<img>").attr("src", response.data[i].images.fixed_height_still.url);
                     gif.attr("active", response.data[i].images.fixed_height.url);
                     gif.attr("still", response.data[i].images.fixed_height_still.url);
                     gif.attr("class", "gif");
-                    gifDiv.append(rating, title, gif);
+                    gifDiv.append(rating, title, favButton, gif);
                     $(".gif-dump").append(gifDiv);
                 }
 
@@ -82,6 +85,32 @@ $(document).ready(function () {
     }
 
 
+
+    //section for local storage and saving favorites
+    $(document).on("click", ".fav-button", newFavorite);
+
+  
+
+    function newFavorite() {
+        if (localStorage.getItem("stillURLS")) {
+            var favGifStillString = localStorage.getItem('stillURLS');
+            var favGifActiveString = localStorage.getItem('activeURLS');
+           var favGifStillArray = favGifStillString.split(" ");
+           var favGifActiveArray = favGifActiveString.split(" ");
+            console.log(favGifActiveArray, favGifStillArray);
+    
+        } else {
+            var favGifStillArray = [];
+            var favGifActiveArray = [];
+            console.log(favGifActiveArray, favGifStillArray);
+        }
+
+        $(this).css("display", "none");
+        favGifStillArray.push($(this).attr("active"));
+        favGifActiveArray.push($(this).attr("still"));
+        localStorage.setItem("activeURLS", JSON.stringify(favGifActiveArray));
+        localStorage.setItem("stillURLS", JSON.stringify(favGifStillArray));
+    }
 
 
 
